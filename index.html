@@ -103,13 +103,13 @@
          */
         function getPersonList() {
             return new Promise((resolve, reject) => {
-                fetch('http://api.namegame.willowtreemobile.com/').then(function(response) {
+                fetch('https://willowtreeapps.com/api/v1.0/profiles/').then(function(response) {
                     if (response.status !== 200) {
                         reject(new Error("Error!"));
                     }
 
                     response.json().then((imageList) => {
-                        resolve(imageList);
+                        resolve(imageList.items);
                     });
                 });
             });
