@@ -245,11 +245,16 @@
             },
 
             componentDidMount() {
-                getPersonList().then((personList) =>
+                getPersonList().then((personList) => {
+                    const personListCleaned = personList.map((person) =>  ({
+                      name: person.firstName + ' ' + person.lastName,
+                      url: 'http:' + person.headshot.url
+                    }))
                     this.setState({
-                        personList,
-                        visiblePersonList: personList
-                    }));
+                        personList: personListCleaned,
+                        visiblePersonList: personListCleaned
+                    });
+                  })
             },
 
             _shuffleList() {
