@@ -155,9 +155,10 @@
          * Remove any people that do not have the name we are
          * searching for.
          */
-        function filterByName(searchForName, personList) {
+        function filterByName(searchString, personList) {
             return personList.filter((person) => {
-                return person.name === searchForName;
+                //return person.name === searchString;
+                return person.name.toLowerCase().includes(searchString.toLowerCase())
             });
         }
 
