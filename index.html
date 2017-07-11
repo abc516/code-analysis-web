@@ -101,18 +101,19 @@
          *        ...
          *    ]
          */
-        function getPersonList() {
-            return new Promise((resolve, reject) => {
-                fetch('https://willowtreeapps.com/api/v1.0/profiles/').then(function(response) {
-                    if (response.status !== 200) {
-                        reject(new Error("Error!"));
-                    }
 
-                    response.json().then((imageList) => {
-                        resolve(imageList.items);
-                    });
-                });
-            });
+        const getPersonList = () => {
+          return new Promise((resolve, reject) => {
+              fetch('https://willowtreeapps.com/api/v1.0/profiles/').then((response) => {
+                  if (response.status !== 200) {
+                      reject(new Error("Error!"));
+                  }
+
+                  response.json().then((imageList) => {
+                      resolve(imageList.items);
+                  });
+              });
+          });
         }
 
 
@@ -122,9 +123,8 @@
 
          ***************************************************/
 
-
-        function getLastName(fullName) {
-            return fullName.match(/\w+/g)[1];
+        const getLastName = (fullName) => {
+          return fullName.match(/\w+/g)[1];
         }
 
         const getFirstName = (fullName) => {
@@ -134,20 +134,20 @@
         /**
          * Fisher-Yates shuffle
          */
-        function shuffleList(list) {
-            // Make a copy & don't mutate the passed in list
-            let result = list.slice(1);
+        const shuffleList = (list) => {
+          // Make a copy & don't mutate the passed in list
+          let result = list.slice(1);
 
-            let tmp, j, i = list.length - 1
+          let tmp, j, i = list.length - 1
 
-            for (; i > 0; i -= 1) {
-                j = Math.floor(Math.random() * (i + 1));
-                tmp = list[i];
-                list[i] = list[j];
-                list[j] = tmp;
-            }
+          for (; i > 0; i -= 1) {
+              j = Math.floor(Math.random() * (i + 1));
+              tmp = list[i];
+              list[i] = list[j];
+              list[j] = tmp;
+          }
 
-            return result;
+          return result;
         }
 
 
@@ -155,11 +155,10 @@
          * Remove any people that do not have the name we are
          * searching for.
          */
-        function filterByName(searchString, personList) {
-            return personList.filter((person) => {
-                //return person.name === searchString;
-                return person.name.toLowerCase().includes(searchString.toLowerCase())
-            });
+        const filterByName = (searchString, personList) => {
+          return personList.filter((person) => {
+              return person.name.toLowerCase().includes(searchString.toLowerCase())
+          });
         }
 
 
@@ -179,25 +178,25 @@
          *    > [{ name: 'Jon' }, { name: 'Kevin' }, { name: 'Sam' }]
          *
          */
-        function sortObjListByProp(prop) {
-            return function(objList) {
-                // Make a copy & don't mutate the passed in list
-                let result = objList.slice(1);
+        const sortObjListByProp = (prop) => {
+          return (objList) => {
+            // Make a copy & don't mutate the passed in list
+            let result = objList.slice(1);
 
-                result.sort((a, b) => {
-                    if (a[prop] < b[prop]) {
-                        return -1;
-                    }
+            result.sort((a, b) => {
+                if (a[prop] < b[prop]) {
+                    return -1;
+                }
 
-                    if (a[prop] > b[prop]) {
-                        return 1;
-                    }
-
+                if (a[prop] > b[prop]) {
                     return 1;
-                });
+                }
 
-                return result;
-            };
+                return 1;
+            });
+
+            return result;
+          }
         }
 
         const sortByFirstName = sortObjListByProp('name');
