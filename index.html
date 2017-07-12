@@ -123,13 +123,13 @@
 
          ***************************************************/
 
-        const getLastName = (fullName) => {
-          return fullName.match(/\w+/g)[1];
-        }
-
-        const getFirstName = (fullName) => {
-            return fullName.match(/\w+/g)[0];
-        };
+        // const getLastName = (fullName) => {
+        //   return fullName.match(/\w+/g)[1];
+        // }
+        //
+        // const getFirstName = (fullName) => {
+        //     return fullName.match(/\w+/g)[0];
+        // };
 
         /**
          * Fisher-Yates shuffle
@@ -157,7 +157,8 @@
          */
         const filterByName = (searchString, personList) => {
           return personList.filter((person) => {
-              return person.name.toLowerCase().includes(searchString.toLowerCase())
+              const name = `${person.firstName} ${person.lastName}`
+              return name.toLowerCase().includes(searchString.toLowerCase())
           });
         }
 
@@ -199,9 +200,9 @@
           }
         }
 
-        const sortByFirstName = sortObjListByProp('name');
+        const sortByFirstName = sortObjListByProp('firstName');
 
-        const sortByLastName = (personList) => sortByFirstName(personList).reverse();
+        const sortByLastName = sortObjListByProp('lastName')
 
 
         /*==================================================
@@ -220,10 +221,10 @@
             src: props.src
         });
 
-        const ListRow = (props) => React.DOM.tr({ key: props.person.name }, [
+        const ListRow = (props) => React.DOM.tr({ key: props.key }, [
             React.DOM.td({ key: 'thumb' }, React.createElement(Thumbnail, { src: props.person.url })),
-            React.DOM.td({ key: 'first' }, null, getFirstName(props.person.name)),
-            React.DOM.td({ key: 'last' }, null, getLastName(props.person.name)),
+            React.DOM.td({ key: 'first' }, null, props.person.firstName),
+            React.DOM.td({ key: 'last' }, null, props.person.lastName),
         ]);
 
         const ListContainer = (props) => React.DOM.table({ className: 'list-container' }, [
@@ -247,7 +248,8 @@
             componentDidMount() {
                 getPersonList().then((personList) => {
                     const personListCleaned = personList.map((person) =>  ({
-                      name: person.firstName + ' ' + person.lastName,
+                      firstName: person.firstName,
+                      lastName: person.lastName,
                       url: 'http:' + person.headshot.url
                     }))
                     this.setState({
